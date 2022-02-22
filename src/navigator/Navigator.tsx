@@ -12,13 +12,7 @@ export const Navigator = () => {
         headerShown: false,
       }}>
       <>
-        <Stack.Screen
-          options={{
-            title: '',
-          }}
-          name="BienvenidaScreen"
-          component={BienvenidaScreen}
-        />
+        <Stack.Screen name="BienvenidaScreen" component={BienvenidaScreen} />
         <Stack.Screen name="NavBar" component={NavBar} />
       </>
     </Stack.Navigator>

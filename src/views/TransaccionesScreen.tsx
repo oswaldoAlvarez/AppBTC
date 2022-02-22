@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useState} from 'react';
+import React, {FunctionComponent, useContext} from 'react';
 import {
   View,
   ScrollView,
@@ -12,6 +12,7 @@ import {SimpleTitle} from '../components/dummyComponents/SimpleTitle';
 import {CardComponent} from '../components/dummyComponents/CardComponent';
 import {useForm} from '../hooks/useForm';
 import {StackScreenProps} from '@react-navigation/stack';
+import Toast from 'react-native-toast-message';
 
 import {ContextApi} from '../context/ContextApi';
 
@@ -19,73 +20,76 @@ interface Props extends StackScreenProps<any, any> {}
 
 export const TransaccionesScreen: FunctionComponent<Props> = ({navigation}) => {
   const {usuarioPrincipal, sendCripto} = useContext(ContextApi);
+  const {BTC} = usuarioPrincipal;
 
   const {userToSendBTC, amountToSend, onChange} = useForm({
     userToSendBTC: '',
     amountToSend: '',
   });
-  const [actuallyAmount, setActuallyAmount] = useState<string>(
-    usuarioPrincipal.BTC,
-  );
-  const [actuallyTrader, setActuallyTrader] = useState<string>(
-    usuarioPrincipal.firstName,
-  );
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Transacción Completada!',
+      text2: 'Tú transacción ha sido completada con éxito! 👋',
+    });
+  };
 
   const sendingCripto = () => {
-    sendCripto(
-      userToSendBTC,
-      setActuallyTrader,
-      setActuallyAmount,
-      amountToSend,
-      actuallyTrader,
-    );
+    sendCripto(amountToSend, userToSendBTC, showToast());
   };
 
   return (
-    <View style={globalStyles.globalMargin}>
-      <SimpleTitle title="Aquí podrá visualizar su información" />
-      <ScrollView horizontal={true}>
-        <CardComponent
-          explicationTitle="Nombre"
-          infoUser={usuarioPrincipal.firstName}
+    <>
+      <View style={globalStyles.globalMargin}>
+        <SimpleTitle title="Aquí podrá visualizar su información" />
+        <ScrollView horizontal={true}>
+          <CardComponent
+            explicationTitle="Nombre"
+            infoUser={usuarioPrincipal.firstName}
+          />
+          <CardComponent
+            explicationTitle="Apellido"
+            infoUser={usuarioPrincipal.lastName}
+          />
+          <CardComponent explicationTitle="Cantidad de BTC" infoUser={BTC} />
+          <CardComponent
+            explicationTitle="Precio 1 BTC a pesos"
+            infoUser={JSON.stringify(usuarioPrincipal.ARSBTC)}
+          />
+        </ScrollView>
+        <SimpleTitle title="¿Quieres hacer una transacción?" />
+        <SimpleInput
+          onChange={value => onChange(value, 'userToSendBTC')}
+          textValue={userToSendBTC}
+          titlePlaceholder="Ej:17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem"
+          titleInput="¿A que billetera querés enviar tus BTC?"
+          onSubmit={sendingCripto}
         />
-        <CardComponent
-          explicationTitle="Apellido"
-          infoUser={usuarioPrincipal.lastName}
+        <SimpleInput
+          onChange={value => onChange(value, 'amountToSend')}
+          textValue={amountToSend}
+          titlePlaceholder="Ej: 100"
+          titleInput="¿Que cantidad de BTC quieres enviar?"
+          onSubmit={sendingCripto}
         />
-        <CardComponent
-          explicationTitle="Cantidad de BTC"
-          infoUser={actuallyAmount}
-        />
-        <CardComponent
-          explicationTitle="Precio 1 BTC a pesos"
-          infoUser={JSON.stringify(usuarioPrincipal.ARSBTC)}
-        />
-      </ScrollView>
-      <SimpleTitle title="¿Quieres hacer una transacción?" />
-      <SimpleInput
-        onChange={value => onChange(value, 'userToSendBTC')}
-        textValue={userToSendBTC}
-        titlePlaceholder="Ej:17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem"
-        titleInput="¿A que billetera querés enviar tus BTC?"
-        onSubmit={sendingCripto}
-      />
-      <SimpleInput
-        onChange={value => onChange(value, 'amountToSend')}
-        textValue={amountToSend}
-        titlePlaceholder="Ej: 100"
-        titleInput="¿Que cantidad de BTC quieres enviar?"
-        onSubmit={sendingCripto}
-      />
-      <TouchableOpacity
-        activeOpacity={0.6}
-        style={styles.btnForm}
-        onPress={() => navigation.navigate('HistorialScreen')}>
-        <Text style={styles.btnText}>
-          Visualizar historial de transacciones
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={[styles.btnForm, styles.btnColorAgree]}
+          onPress={sendingCripto}>
+          <Text style={styles.btnText}>Completar Transacción</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={[styles.btnForm, styles.btnColorBasic]}
+          onPress={() => navigation.navigate('HistorialScreen')}>
+          <Text style={styles.btnText}>
+            Visualizar historial de transacciones
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Toast position="bottom" visibilityTime={2000} />
+    </>
   );
 };
 
@@ -94,7 +98,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 10,
     borderRadius: 8,
+    marginVertical: 5,
+  },
+  btnColorBasic: {
     backgroundColor: ThemeBackground,
+  },
+  btnColorAgree: {
+    backgroundColor: 'green',
   },
   btnText: {
     color: 'white',

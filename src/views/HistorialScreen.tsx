@@ -6,12 +6,14 @@ import {globalStyles} from '../theme/appTheme';
 import {ContextApi} from '../context/ContextApi';
 
 export const HistorialScreen: FunctionComponent = () => {
-  const {initialState} = useContext(ContextApi);
+  const {appState} = useContext(ContextApi);
+  const {history} = appState;
+
   return (
     <View style={globalStyles.globalMargin}>
       <ScrollView>
         <SimpleTitle title="Aquí podrá visualizar sus transacciones" />
-        {initialState.history.map((story: any, i: any) => {
+        {history.map((story: any, i: any) => {
           return (
             <CardHistory
               key={i}

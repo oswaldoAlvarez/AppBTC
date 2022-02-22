@@ -32,6 +32,5 @@ const styles = StyleSheet.create({
   },
   textCard: {
     fontSize: 16,
-    fontFamily: 'sans-serif-medium',
   },
 });
