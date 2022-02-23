@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getFees = async () => {
+export const getFees = async (): Promise<any> => {
   try {
     const res = await axios.get(
       'https://bitcoinfees.earn.com/api/v1/fees/recommended',
@@ -12,7 +12,7 @@ export const getFees = async () => {
   }
 };
 
-export const getAltcoins = async () => {
+export const getAltcoins = async (): Promise<any> => {
   try {
     const res = await axios.get('https://ripio.com/api/v1/rates/');
 

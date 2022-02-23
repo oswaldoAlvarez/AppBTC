@@ -1,20 +1,11 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {FunctionComponent, useEffect} from 'react';
+import React, {FunctionComponent} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-
-const USER_NAME = 'user-name';
+import {ThemeBackground} from '../theme/appTheme';
 
 export const BienvenidaScreen: FunctionComponent = () => {
   const navigation = useNavigation<StackNavigationProp<any, any>>();
-
-  useEffect(() => {
-    const user = AsyncStorage.getItem(USER_NAME);
-    if (!user) {
-      AsyncStorage.setItem(USER_NAME, JSON.stringify(user));
-    }
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -25,7 +16,7 @@ export const BienvenidaScreen: FunctionComponent = () => {
           activeOpacity={0.6}
           style={styles.btnForm}
           onPress={() => navigation.navigate('NavBar')}>
-          <Text style={styles.btnText}>Llamar info</Text>
+          <Text style={styles.btnText}>Probar Aplicaión</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -48,7 +39,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: 'black',
+    backgroundColor: ThemeBackground,
   },
   primaryText: {
     fontSize: 30,

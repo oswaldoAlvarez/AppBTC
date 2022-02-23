@@ -27,16 +27,8 @@ export const TransaccionesScreen: FunctionComponent<Props> = ({navigation}) => {
     amountToSend: '',
   });
 
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Transacción Completada!',
-      text2: 'Tú transacción ha sido completada con éxito! 👋',
-    });
-  };
-
   const sendingCripto = () => {
-    sendCripto(amountToSend, userToSendBTC, showToast());
+    sendCripto(amountToSend, userToSendBTC);
   };
 
   return (
@@ -52,10 +44,13 @@ export const TransaccionesScreen: FunctionComponent<Props> = ({navigation}) => {
             explicationTitle="Apellido"
             infoUser={usuarioPrincipal.lastName}
           />
-          <CardComponent explicationTitle="Cantidad de BTC" infoUser={BTC} />
+          <CardComponent
+            explicationTitle="Cantidad de BTC"
+            infoUser={BTC + Number(amountToSend)}
+          />
           <CardComponent
             explicationTitle="Precio 1 BTC a pesos"
-            infoUser={JSON.stringify(usuarioPrincipal.ARSBTC)}
+            infoUser={usuarioPrincipal.ARSBTC}
           />
         </ScrollView>
         <SimpleTitle title="¿Quieres hacer una transacción?" />
@@ -88,7 +83,7 @@ export const TransaccionesScreen: FunctionComponent<Props> = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <Toast position="bottom" visibilityTime={2000} />
+      <Toast position="bottom" visibilityTime={4000} />
     </>
   );
 };

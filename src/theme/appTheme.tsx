@@ -1,7 +1,7 @@
 import {DefaultTheme} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
 
-export const ThemeBackground = 'blue';
+export const ThemeBackground = '#294195';
 
 export const globalStyles = StyleSheet.create({
   globalMargin: {

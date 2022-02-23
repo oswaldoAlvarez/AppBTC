@@ -23,7 +23,7 @@ export function NavBar() {
       })}>
       <Tab.Screen
         options={{
-          title: 'Información del usuario',
+          title: 'Usuario',
           tabBarLabelStyle: styles.label,
         }}
         name="TransaccionesScreen"
@@ -31,7 +31,7 @@ export function NavBar() {
       />
       <Tab.Screen
         options={{
-          title: 'Historial de transacciones',
+          title: 'Transacciones',
           tabBarLabelStyle: styles.label,
         }}
         name="HistorialScreen"

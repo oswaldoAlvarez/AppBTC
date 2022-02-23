@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 interface Props {
   explicationTitle: string;
-  infoUser: string;
+  infoUser: number | string;
 }
 
 export const CardComponent: FunctionComponent<Props> = ({

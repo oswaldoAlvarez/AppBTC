@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {globalStyles} from '../theme/appTheme';
-import {getFees, getAltcoins} from '../Api/conectApi';
+import {ContextApi} from '../context/ContextApi';
 
 export const MonedasActualesScreen = () => {
-  const [comisiones, setComisiones] = useState({});
-  const [altcoins, setAltcoins] = useState<[string, any][]>([]);
-
-  useEffect(() => {
-    getFees().then(res => setComisiones(res));
-    getAltcoins().then(res => {
-      const temp = Object.entries(res.names);
-      setAltcoins(temp);
-    });
-  }, []);
+  const {comisiones, altcoins} = useContext(ContextApi);
 
   const {fastestFee, halfHourFee, hourFee}: any = comisiones;
   return (
@@ -30,7 +21,7 @@ export const MonedasActualesScreen = () => {
       )}
       <View>
         {altcoins &&
-          altcoins.map((criptos: [string, any][], i: number) => {
+          altcoins.map((criptos: any, i: number) => {
             const [pair, value] = criptos;
             return (
               <Text key={i}>
