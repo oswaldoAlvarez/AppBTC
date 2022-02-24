@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 interface Props {
-  explicationTitle: string;
-  infoUser: number | string;
+  explicationTitle?: string;
+  infoUser?: number | string;
 }
 
 export const CardComponent: FunctionComponent<Props> = ({
@@ -12,9 +12,13 @@ export const CardComponent: FunctionComponent<Props> = ({
 }) => {
   return (
     <View style={styles.cardInfo}>
-      <Text style={styles.textCard}>
-        {explicationTitle}: {infoUser}
-      </Text>
+      <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+        <Text style={styles.textCard}>
+          {explicationTitle}
+          {explicationTitle ? ': ' : null}
+          {infoUser}
+        </Text>
+      </ScrollView>
     </View>
   );
 };
@@ -24,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    height: 50,
+    height: 40,
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,
